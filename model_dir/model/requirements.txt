@@ -1,9 +1,7 @@
 mlflow==2.19.0
-cloudpickle==3.1.1
+cloudpickle==3.0.0
+lz4==4.3.2
 numpy==1.26.4
-pandas==2.2.3
-psutil==6.1.0
-scikit-learn==1.6.1
-scipy==1.13.1
-imblearn
-joblib
+psutil==5.9.0
+scikit-learn==1.5.1
+scipy==1.14.1
