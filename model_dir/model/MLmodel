@@ -1,0 +1,27 @@
+artifact_path: model
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.12.2
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.6.0
+mlflow_version: 2.19.0
+model_size_bytes: 61544
+model_uuid: 0c95889e3149477bbeddafa32c497142
+run_id: b5f18c84058646fd91908e0f0ea9d1a9
+saved_input_example_info:
+  artifact_path: input_example.json
+  pandas_orient: split
+  serving_input_path: serving_input_example.json
+  type: dataframe
+signature:
+  inputs: '[{"type": "long", "name": "gender", "required": true}, {"type": "double", "name": "age", "required": true}, {"type": "long", "name": "hypertension", "required": true}, {"type": "long", "name": "heart_disease", "required": true}, {"type": "long", "name": "ever_married", "required": true}, {"type": "long", "name": "work_type", "required": true}, {"type": "long", "name": "Residence_type", "required": true}, {"type": "double", "name": "avg_glucose_level", "required": true}, {"type": "double", "name": "bmi", "required": true}, {"type": "long", "name": "smoking_status", "required": true}]'
+utc_time_created: "2025-05-29 01:47:30.669483"
