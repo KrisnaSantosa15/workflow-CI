@@ -1,0 +1,70 @@
+name: MLFlow CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+env:
+  CSV_URL: "MLproject/stroke_data_clean.csv"
+  TARGET_VAR: "Stroke_Prediction"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Run actions/checkout@v3 
+      uses: actions/checkout@v3
+
+    - name: Set up Python 3.12.7
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.12.7
+
+    - name: Check Env
+      run: |
+        echo $CSV_URL
+        python --version
+        pip --version
+
+    - name: Install dependencies
+      run: |
+        pip install -r ./MLProject/requirements.txt
+
+    - name: Run mlflow project
+      run: |
+        mlflow run MLProject --env-manager=local
+
+    - name: Get latest MLflow run_id
+      run: |
+        echo "RUN_ID=$(mlflow experiments list --view-type ACTIVE | tail -n 1 | awk '{print $1}')" >> $GITHUB_ENV
+
+    - name: Install Python dependencies
+      run: |
+        echo "Install dependencies dari model jika perlu"
+        # Contoh jika model tersimpan di model_dir/model
+        pip install -r model_dir/model/requirements.txt || echo "Tidak ada file requirements"
+
+    - name: Upload to Google Drive
+      run: |
+        echo "Simulasi upload artifact ke Google Drive"
+
+    - name: Build Docker Model
+      run: |
+        docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/workflow-ci:latest .
+
+    - name: Log in to Docker Hub
+      run: echo "${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+
+    - name: Tag Docker Image
+      run: |
+        docker tag ${{ secrets.DOCKER_HUB_USERNAME }}/workflow-ci:latest ${{ secrets.DOCKER_HUB_USERNAME }}/workflow-ci:v1.0.0
+
+    - name: Push Docker Image
+      run: |
+        docker push ${{ secrets.DOCKER_HUB_USERNAME }}/workflow-ci:latest
+        docker push ${{ secrets.DOCKER_HUB_USERNAME }}/workflow-ci:v1.0.0
