@@ -4,6 +4,7 @@ flavors:
     env:
       conda: conda.yaml
       virtualenv: python_env.yaml
+      requirements: requirements.txt
     loader_module: mlflow.sklearn
     model_path: model.pkl
     predict_fn: predict
@@ -23,7 +24,8 @@ saved_input_example_info:
   serving_input_path: serving_input_example.json
   type: dataframe
 signature:
-  inputs: '[{"type": "long", "name": "gender", "required": true}, {"type": "double",
+  inputs:
+    '[{"type": "long", "name": "gender", "required": true}, {"type": "double",
     "name": "age", "required": true}, {"type": "long", "name": "hypertension", "required":
     true}, {"type": "long", "name": "heart_disease", "required": true}, {"type": "long",
     "name": "ever_married", "required": true}, {"type": "long", "name": "work_type",
@@ -33,4 +35,4 @@ signature:
     true}]'
   outputs: '[{"type": "long", "required": true}]'
   params: null
-utc_time_created: '2025-08-12 17:10:32.997179'
+utc_time_created: "2025-08-12 17:10:32.997179"
