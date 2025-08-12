@@ -1,4 +1,4 @@
-name: lung-cancer-project
+name: stroke-prediction
 
 conda_env: conda.yaml
 

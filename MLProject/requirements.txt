@@ -6,3 +6,4 @@ seaborn
 matplotlib
 dagshub
 imblearn
+joblib

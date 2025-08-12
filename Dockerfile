@@ -16,7 +16,7 @@ RUN python -c "from mlflow.models import container as C; C._install_pyfunc_deps(
 
 ENV MLFLOW_DISABLE_ENV_CREATION=True
 ENV ENABLE_MLSERVER=False
-ENV GUNICORN_CMD_ARGS="--timeout 60 -k gevent"
+ENV GUNICORN_CMD_ARGS="--timeout 60 -k gevent --bind 0.0.0.0:8000"
 
 # granting read/write access and conditional execution authority to all child directories
 # and files to allow for deployment to AWS Sagemaker Serverless Endpoints
@@ -26,6 +26,6 @@ RUN chmod o+rwX /opt/mlflow/
 # clean up apt cache to reduce image size
 RUN rm -rf /var/lib/apt/lists/*
 
-ENTRYPOINT ["mlflow", "models", "serve", "-m", "/opt/ml/model", "-p", "8000", "-h", "0.0.0.0", "--no-conda"]
+ENTRYPOINT ["python", "-c", "from mlflow.models import container as C; C._serve('local')"]
 
 
